@@ -61,6 +61,7 @@ Window {
 
             Layout.fillWidth: true
             Layout.fillHeight: true
+            wrapMode: TextArea.Wrap
         }
 
         RowLayout {
