@@ -2,6 +2,7 @@ import QtQuick 2.0
 import QtQuick.Controls 2.0
 import QtQuick.Layouts
 import QtQuick.Controls.Universal
+import QML_Client 1.0
 
 Window {
     id: window
@@ -9,6 +10,10 @@ Window {
     height: 480
     visible: true
     title: qsTr("Hello World")
+
+    ClientConnection {
+        id: clientConnection
+    }
 
     ColumnLayout {
         id: infoColumn
@@ -20,7 +25,6 @@ Window {
             bottom: parent.bottom
             margins: 16
         }
-
 
         RowLayout {
 
@@ -37,6 +41,7 @@ Window {
             TextField {
                 id: textField
                 Layout.fillWidth: true
+                onTextChanged: clientConnection.userName = text
 
                 background: Rectangle {
                     //implicitWidth: 200
@@ -54,6 +59,10 @@ Window {
 
                 text: "Connect"
                 Layout.alignment: Qt.AlignRight
+
+                onClicked: {
+                    clientConnection.on_connectButton_clicked()
+                }
             }
         }
 
@@ -61,7 +70,9 @@ Window {
 
             Layout.fillWidth: true
             Layout.fillHeight: true
-            wrapMode: TextArea.Wrap
+            //wrapMode: TextArea.WrapAnywhere
+            text: clientConnection.messages
+            textFormat: TextEdit.RichText
         }
 
         RowLayout {
