@@ -9,7 +9,7 @@ Window {
     width: 640
     height: 480
     visible: true
-    title: qsTr("Hello World")
+    title: qsTr("Client Window")
     color: "mediumseagreen"
 
     ClientConnection {
@@ -46,7 +46,6 @@ Window {
                 onTextChanged: clientConnection.userName = text
 
                 background: Rectangle {
-                    //implicitWidth: 200
                     implicitHeight: 30
                     anchors.fill: parent
                     height: 120
@@ -65,6 +64,7 @@ Window {
 
                 onClicked: {
                     clientConnection.on_connectButton_clicked()
+                    forceActiveFocus()
                 }
 
                 contentItem: Text {
@@ -89,7 +89,7 @@ Window {
 
             background: Rectangle {
                 color: "white"
-                border.color: textArea.activeFocus ? "greenyellow" : "lightslategrey"
+                border.color: "springgreen"
                 border.width: 3
                 radius: 5
             }
@@ -121,6 +121,10 @@ Window {
                        horizontalAlignment: Text.AlignHCenter
                        verticalAlignment: Text.AlignVCenter
                        elide: Text.ElideRight
+                }
+
+                onClicked: {
+                    forceActiveFocus()
                 }
             }
         }
