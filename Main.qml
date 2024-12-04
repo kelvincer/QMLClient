@@ -46,6 +46,7 @@ Window {
                 Layout.fillWidth: true
                 onTextChanged: clientConnection.userName = text
                 placeholderText: qsTr("Input your name")
+                readOnly: clientConnection.isConnected
 
                 background: Rectangle {
                     implicitHeight: 30
@@ -98,6 +99,7 @@ Window {
                 text: clientConnection.messages
                 textFormat: Text.RichText
                 readOnly: true
+                selectionColor: "green"
 
                 background: Rectangle {
                     color: "white"
