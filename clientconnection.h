@@ -10,10 +10,10 @@
 class ClientConnection : public QObject
 {
     Q_OBJECT
-
-    Q_PROPERTY(QString userName READ userName WRITE setUserName NOTIFY userNameChanged)
     QML_ELEMENT
+    Q_PROPERTY(QString userName READ userName WRITE setUserName NOTIFY userNameChanged)
     Q_PROPERTY(QString messages READ messages WRITE setMessages NOTIFY messagesChanged)
+    Q_PROPERTY(bool isConnected READ isConnectedToHost NOTIFY isConnectedChanged)
 
 public:
     explicit ClientConnection(QObject *parent = nullptr);
@@ -24,6 +24,7 @@ public:
     void setMessages(const QString &messages);
     void printMessage(QString message);
 
+
 public slots:
     void on_connectButton_clicked();
     void on_sendButton_clicked();
@@ -31,11 +32,13 @@ public slots:
     void socketConnected();
     void socketDisconnected();
     void socketReadyRead();
+    bool isConnectedToHost();
 
 signals:
 
     void userNameChanged();
     void messagesChanged();
+    void isConnectedChanged();
 
 private:
     QString m_userName;

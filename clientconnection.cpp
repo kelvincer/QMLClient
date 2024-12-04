@@ -43,7 +43,7 @@ void ClientConnection::on_connectButton_clicked()
     }
     else
     {
-        socket->write("<font color=\"Orange\">" + m_userName.toUtf8() + " has left the chat room.</font>");
+        socket->write("<font color=\"Orange\">" + m_userName.toUtf8() + " has left the chat room.</font><br>");
 
         socket->disconnectFromHost();
     }
@@ -66,20 +66,20 @@ void ClientConnection::socketConnected()
 
     socket->write("<font color=\"Purple\">" + m_userName.toUtf8() + " has joined the chat room.</font><br>");
 
-    //ui->connectButton->setText("Disconnect");
     connectedToHost = true;
 
-    qDebug() << "correct.";
+    emit isConnectedChanged();
 }
 
 void ClientConnection::socketDisconnected()
 {
     qDebug() << "Disconnected from server.";
 
-    printMessage("<font color=\"Red\">Disconnected from server.</font>");
+    printMessage("<font color=\"Red\">Disconnected from server.</font><br>");
 
-    //ui->connectButton->setText("Connect");
     connectedToHost = false;
+
+    emit isConnectedChanged();
 }
 
 void ClientConnection::socketReadyRead()
@@ -92,6 +92,10 @@ void ClientConnection::printMessage(QString message)
     //ui->chatDisplay->append(message);
     m_messages.append(message);
     emit messagesChanged();
+}
 
+bool ClientConnection::isConnectedToHost()
+{
+    return connectedToHost;
 }
 

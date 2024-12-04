@@ -10,6 +10,7 @@ Window {
     height: 480
     visible: true
     title: qsTr("Hello World")
+    color: "mediumseagreen"
 
     ClientConnection {
         id: clientConnection
@@ -35,7 +36,8 @@ Window {
             Text {
                 id: nameLabel
                 text: qsTr("Name:")
-                font.pointSize: 20
+                font.pointSize: 15
+                color: "white"
             }
 
             TextField {
@@ -49,40 +51,77 @@ Window {
                     anchors.fill: parent
                     height: 120
                     color: "white"
-                    border.color: textField.activeFocus ? "red" : "lime"
-                    border.width: 2
+                    border.color: textField.activeFocus ? "greenyellow" : "lightslategrey"
+                    border.width: 3
                     radius: 5
                 }
             }
 
             Button {
-
-                text: "Connect"
+                id: connectButton
+                text: clientConnection.isConnected ? "Disconnect" : "Connect"
                 Layout.alignment: Qt.AlignRight
+                palette.buttonText: "white"
 
                 onClicked: {
                     clientConnection.on_connectButton_clicked()
+                }
+
+                contentItem: Text {
+                       text: connectButton.text
+                       font: connectButton.font
+                       color: "white"
+                       horizontalAlignment: Text.AlignHCenter
+                       verticalAlignment: Text.AlignVCenter
+                       elide: Text.ElideRight
                 }
             }
         }
 
         TextArea {
-
+            id: textArea
             Layout.fillWidth: true
             Layout.fillHeight: true
-            //wrapMode: TextArea.WrapAnywhere
+            wrapMode: TextArea.Wrap
             text: clientConnection.messages
             textFormat: TextEdit.RichText
+            readOnly: true
+
+            background: Rectangle {
+                color: "white"
+                border.color: textArea.activeFocus ? "greenyellow" : "lightslategrey"
+                border.width: 3
+                radius: 5
+            }
         }
 
         RowLayout {
             TextField {
+                id: messageTextField
                 Layout.fillWidth: true
+
+                background: Rectangle {
+                    implicitHeight: 30
+                    color: "white"
+                    border.color: messageTextField.activeFocus ? "greenyellow" : "lightslategrey"
+                    border.width: 3
+                    radius: 5
+                }
             }
 
             Button {
+                id: sendButton
                 text: "Send"
                 Layout.alignment: Qt.AlignRight
+
+                contentItem: Text {
+                       text: sendButton.text
+                       font: sendButton.font
+                       color: "white"
+                       horizontalAlignment: Text.AlignHCenter
+                       verticalAlignment: Text.AlignVCenter
+                       elide: Text.ElideRight
+                }
             }
         }
     }
