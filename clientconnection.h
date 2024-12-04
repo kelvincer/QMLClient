@@ -13,17 +13,25 @@ class ClientConnection : public QObject
     QML_ELEMENT
     Q_PROPERTY(QString userName READ userName WRITE setUserName NOTIFY userNameChanged)
     Q_PROPERTY(QString messages READ messages WRITE setMessages NOTIFY messagesChanged)
+    Q_PROPERTY(QString message READ message WRITE setMessage NOTIFY messageChanged)
     Q_PROPERTY(bool isConnected READ isConnectedToHost NOTIFY isConnectedChanged)
 
-public:
-    explicit ClientConnection(QObject *parent = nullptr);
+    QString m_userName;
+    QString m_messages;
+    QString m_message;
+    bool connectedToHost = false;
+    QTcpSocket* socket;
 
     QString userName();
     QString messages();
+    QString message();
     void setUserName(const QString &userName);
     void setMessages(const QString &messages);
+    void setMessage(const QString &message);
     void printMessage(QString message);
 
+public:
+    explicit ClientConnection(QObject *parent = nullptr);
 
 public slots:
     void on_connectButton_clicked();
@@ -39,12 +47,8 @@ signals:
     void userNameChanged();
     void messagesChanged();
     void isConnectedChanged();
+    void messageChanged();
 
-private:
-    QString m_userName;
-    QString m_messages;
-    bool connectedToHost = false;
-    QTcpSocket* socket;
 };
 
 #endif // CLIENTCONNECTION_H

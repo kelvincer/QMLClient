@@ -87,20 +87,24 @@ Window {
             }
         }
 
-        TextArea {
-            id: textArea
+        ScrollView {
             Layout.fillWidth: true
             Layout.fillHeight: true
-            wrapMode: TextArea.Wrap
-            text: clientConnection.messages
-            textFormat: TextEdit.RichText
-            readOnly: true
+            ScrollBar.vertical.policy: ScrollBar.AlwaysOff
 
-            background: Rectangle {
-                color: "white"
-                border.color: "springgreen"
-                border.width: 3
-                radius: 5
+            TextArea {
+                id: textArea
+                wrapMode: TextArea.Wrap
+                text: clientConnection.messages
+                textFormat: Text.RichText
+                readOnly: true
+
+                background: Rectangle {
+                    color: "white"
+                    border.color: "springgreen"
+                    border.width: 3
+                    radius: 5
+                }
             }
         }
 
@@ -108,7 +112,9 @@ Window {
             TextField {
                 id: messageTextField
                 Layout.fillWidth: true
+                //text: clientConnection.message
                 placeholderText: qsTr("Input your message")
+                onTextChanged: clientConnection.message = text;
 
                 background: Rectangle {
                     implicitHeight: 30
@@ -134,11 +140,13 @@ Window {
                 }
 
                 onClicked: {
+                    clientConnection.on_sendButton_clicked()
+                    messageTextField.clear();
                     forceActiveFocus()
                 }
 
                 enabled: {
-                    if(messageTextField.text === "") {
+                    if(messageTextField.text === "" || textFieldName.text === "" || !clientConnection.isConnected) {
                         false
                     } else {
                         true

@@ -14,6 +14,11 @@ QString ClientConnection::messages()
     return m_messages;
 }
 
+QString ClientConnection::message()
+{
+    return m_message;
+}
+
 void ClientConnection::setUserName(const QString &userName)
 {
     if (userName == m_userName)
@@ -27,6 +32,12 @@ void ClientConnection::setMessages(const QString &messages)
 {
     m_messages = messages;
     emit messagesChanged();
+}
+
+void ClientConnection::setMessage(const QString &message)
+{
+    m_message = message;
+    emit messageChanged();
 }
 
 void ClientConnection::on_connectButton_clicked()
@@ -51,20 +62,16 @@ void ClientConnection::on_connectButton_clicked()
 
 void ClientConnection::on_sendButton_clicked()
 {
-    //QString name = ui->nameInput->text();
-    //QString message = ui->messageInput->text();
-    //socket->write("<font color=\"Blue\">" + m_userName.toUtf8() + "</font>: " + message.toUtf8());
-
-    //ui->messageInput->clear();
+    socket->write("<br><font color=\"Blue\">" + m_userName.toUtf8() + "</font>: " + m_message.toUtf8());
 }
 
 void ClientConnection::socketConnected()
 {
     qDebug() << "Connected to server.";
 
-    printMessage("<font color=\"Green\">Connected to server.</font><br>");
+    printMessage("<font color=\"Green\">Connected to server.</font>");
 
-    socket->write("<font color=\"Purple\">" + m_userName.toUtf8() + " has joined the chat room.</font><br>");
+    socket->write("<br><font color=\"Purple\">" + m_userName.toUtf8() + " has joined the chat room.</font>");
 
     connectedToHost = true;
 
@@ -75,7 +82,7 @@ void ClientConnection::socketDisconnected()
 {
     qDebug() << "Disconnected from server.";
 
-    printMessage("<font color=\"Red\">Disconnected from server.</font><br>");
+    printMessage("<br><font color=\"Red\">Disconnected from server.</font><br>");
 
     connectedToHost = false;
 
@@ -89,7 +96,6 @@ void ClientConnection::socketReadyRead()
 
 void ClientConnection::printMessage(QString message)
 {
-    //ui->chatDisplay->append(message);
     m_messages.append(message);
     emit messagesChanged();
 }
