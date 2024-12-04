@@ -38,19 +38,21 @@ Window {
                 text: qsTr("Name:")
                 font.pointSize: 15
                 color: "white"
+                font.weight: Font.Medium
             }
 
             TextField {
-                id: textField
+                id: textFieldName
                 Layout.fillWidth: true
                 onTextChanged: clientConnection.userName = text
+                placeholderText: qsTr("Input your name")
 
                 background: Rectangle {
                     implicitHeight: 30
                     anchors.fill: parent
                     height: 120
                     color: "white"
-                    border.color: textField.activeFocus ? "greenyellow" : "lightslategrey"
+                    border.color: textFieldName.activeFocus ? "greenyellow" : "lightslategrey"
                     border.width: 3
                     radius: 5
                 }
@@ -61,6 +63,13 @@ Window {
                 text: clientConnection.isConnected ? "Disconnect" : "Connect"
                 Layout.alignment: Qt.AlignRight
                 palette.buttonText: "white"
+                enabled: {
+                    if(textFieldName.text === "") {
+                        false
+                    } else {
+                        true
+                    }
+                }
 
                 onClicked: {
                     clientConnection.on_connectButton_clicked()
@@ -68,12 +77,12 @@ Window {
                 }
 
                 contentItem: Text {
-                       text: connectButton.text
-                       font: connectButton.font
-                       color: "white"
-                       horizontalAlignment: Text.AlignHCenter
-                       verticalAlignment: Text.AlignVCenter
-                       elide: Text.ElideRight
+                    text: connectButton.text
+                    font.weight: Font.Medium
+                    color: "white"
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                    elide: Text.ElideRight
                 }
             }
         }
@@ -99,6 +108,7 @@ Window {
             TextField {
                 id: messageTextField
                 Layout.fillWidth: true
+                placeholderText: qsTr("Input your message")
 
                 background: Rectangle {
                     implicitHeight: 30
@@ -115,16 +125,24 @@ Window {
                 Layout.alignment: Qt.AlignRight
 
                 contentItem: Text {
-                       text: sendButton.text
-                       font: sendButton.font
-                       color: "white"
-                       horizontalAlignment: Text.AlignHCenter
-                       verticalAlignment: Text.AlignVCenter
-                       elide: Text.ElideRight
+                    text: sendButton.text
+                    font.weight: Font.Medium
+                    color: "white"
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                    elide: Text.ElideRight
                 }
 
                 onClicked: {
                     forceActiveFocus()
+                }
+
+                enabled: {
+                    if(messageTextField.text === "") {
+                        false
+                    } else {
+                        true
+                    }
                 }
             }
         }
