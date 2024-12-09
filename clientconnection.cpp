@@ -57,6 +57,8 @@ void ClientConnection::on_connectButton_clicked()
         socket->write("<font color=\"Orange\">" + m_userName.toUtf8() + " has left the chat room.</font><br>");
 
         socket->disconnectFromHost();
+
+        delete socket;
     }
 }
 
